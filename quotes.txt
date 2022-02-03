@@ -1,0 +1,2 @@
+{'customName':Caio, 'width': 80, 'depth': 48, 'numberDrawers': 2, 'material': veneer, 'orderOptions': 5}
+{'customName':Renata, 'width': 75, 'depth': 45, 'numberDrawers': 3, 'material': laminate, 'orderOptions': 3}

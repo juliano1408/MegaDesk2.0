@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace MegaDesk_Stratton
 {
@@ -59,7 +60,45 @@ namespace MegaDesk_Stratton
             var viewDisplayQuote = new DisplayQuote(_newQuote);
             viewDisplayQuote.Tag = this;
             viewDisplayQuote.Show(this);
+            saveToTxtJson(_newQuote);
             Hide();
+
+        }
+
+        private void saveToTxtJson(DeskQuote deskquote)
+        {
+            string workingDirectory = Environment.CurrentDirectory;
+            string projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
+
+            string customName = deskquote.GetCustName();
+            string width = deskquote.GetDesk().GetWidth().ToString();
+            string depth = deskquote.GetDesk().GetDepth().ToString();
+            string numberDrawers = deskquote.GetDesk().GetDrawerCount().ToString();
+            string material = deskquote.GetDesk().GetDesktopMaterial().ToString();
+            string orderOptions = deskquote.GetRush().ToString();
+
+            string json = @"{'customName':" + customName + ", " +
+                            "'width': " + width + ", " +
+                            "'depth': " + depth + ", " +
+                            "'numberDrawers': " + numberDrawers + ", " +
+                            "'material': " + material + ", " +
+                            "'orderOptions': " + orderOptions + "}";
+
+            string pathFile = projectDirectory + "\\quotes.txt";
+
+            if (!File.Exists(pathFile))
+            {
+                using (StreamWriter sw = File.CreateText(pathFile))
+                {
+                    sw.WriteLine(json);
+                }
+            }
+            else
+            {
+                StreamWriter sw = new StreamWriter(pathFile, true);
+                sw.WriteLine(json);
+                sw.Dispose();
+            }
 
         }
 
