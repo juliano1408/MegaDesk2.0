@@ -42,7 +42,7 @@ namespace MegaDesk_Stratton
 
         }
         public void SetDesktopMaterial(string sm)
-        {
+        { 
             switch (sm)
             {
                 case "laminate":desktopMaterial= DesktopMaterial.laminate; break;
