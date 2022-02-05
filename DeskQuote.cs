@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace MegaDesk_Stratton
 {
@@ -59,23 +60,24 @@ namespace MegaDesk_Stratton
         {
             return PERDRAWER * Desk.GetDrawerCount();
         }
-        public int CalcRushCost() { 
+        public int CalcRushCost() {
+            int[,] rushOrderPriceMap = GetRushOrder();
             int result = 0;
             switch(rush)
             { case 3:
-                    if (Desk.GetArea() < OVERSIZESTARTNUM) result = 60;
-                    else if (Desk.GetArea() > OVERSIZESTARTNUM && Desk.GetArea() < OVERSIZEHIGHNUM) result = 70;
-                    else result = 80;
+                    if (Desk.GetArea() < OVERSIZESTARTNUM) result = rushOrderPriceMap[0,0];
+                    else if (Desk.GetArea() > OVERSIZESTARTNUM && Desk.GetArea() < OVERSIZEHIGHNUM) result = rushOrderPriceMap[0,1];
+                    else result = rushOrderPriceMap[0,2];
                     break;
                 case 5:
-                    if (Desk.GetArea() < OVERSIZESTARTNUM) result = 40;
-                    else if (Desk.GetArea() > OVERSIZESTARTNUM && Desk.GetArea() < OVERSIZEHIGHNUM) result = 50;
-                    else result = 60;
+                    if (Desk.GetArea() < OVERSIZESTARTNUM) result = rushOrderPriceMap[1,0];
+                    else if (Desk.GetArea() > OVERSIZESTARTNUM && Desk.GetArea() < OVERSIZEHIGHNUM) result = rushOrderPriceMap[1,1];
+                    else result = rushOrderPriceMap[1,2];
                     break;
                 case 7:
-                    if (Desk.GetArea() < OVERSIZESTARTNUM) result = 30;
-                    else if (Desk.GetArea() > OVERSIZESTARTNUM && Desk.GetArea() < OVERSIZEHIGHNUM) result = 35;
-                    else result =40;
+                    if (Desk.GetArea() < OVERSIZESTARTNUM) result = rushOrderPriceMap[2,0];
+                    else if (Desk.GetArea() > OVERSIZESTARTNUM && Desk.GetArea() < OVERSIZEHIGHNUM) result = rushOrderPriceMap[2,1];
+                    else result =rushOrderPriceMap[2,2];
                     break;
                  default: 
                     result = 0;
@@ -86,14 +88,15 @@ namespace MegaDesk_Stratton
         }
         public int CalcSurfaceCost()
         {
+            List<int> materialPriceList = new List<int>() { 200, 100, 50, 300, 125 };
             int result = 0; 
             switch (Desk.GetDesktopMaterial()) 
             { 
-                case DesktopMaterial.laminate: result = 100; break; 
-                case DesktopMaterial.oak: result = 200; break; 
-                case DesktopMaterial.pine: result = 50; break; 
-                case DesktopMaterial.rosewood: result = 300; break; 
-                case DesktopMaterial.veneer: result = 125; break;
+                case DesktopMaterial.laminate: result = materialPriceList[1]; break; 
+                case DesktopMaterial.oak: result = materialPriceList[0]; break; 
+                case DesktopMaterial.pine: result = materialPriceList[2]; break; 
+                case DesktopMaterial.rosewood: result = materialPriceList[3]; break; 
+                case DesktopMaterial.veneer: result = materialPriceList[4]; break;
         } return result;
             
             
@@ -117,6 +120,61 @@ namespace MegaDesk_Stratton
         {
             return base.ToString()+"\n"+
                "name:" + GetCustName();
+        }
+
+        public int[,] GetRushOrder()
+        {
+            string[] rushPriceStrings = File.ReadAllLines("..\\..\\rushOrderPrices.txt");
+
+            List<int> rushPricesList = new List<int>();
+
+            for (int i = 0; i < rushPriceStrings.Length; i++)
+            {
+                rushPricesList.Add(Int16.Parse(rushPriceStrings[i]));
+            }
+
+            int[,] rushPriceMap = new int[3, 3];
+
+            try
+            {
+                foreach (int price in rushPricesList)
+                {
+                    if (rush == 3)
+                    {
+                        if (Desk.GetArea() < OVERSIZESTARTNUM)
+                            rushPriceMap[0, 0] = rushPricesList[0];
+                        else if (Desk.GetArea() > OVERSIZESTARTNUM && Desk.GetArea() < OVERSIZEHIGHNUM)
+                            rushPriceMap[0, 1] = rushPricesList[1];
+                        else
+                            rushPriceMap[0, 2] = rushPricesList[2];
+                    }
+                    else if (rush == 5)
+                    {
+                        if (Desk.GetArea() < OVERSIZESTARTNUM)
+                            rushPriceMap[1, 0] = rushPricesList[3];
+                        else if (Desk.GetArea() > OVERSIZESTARTNUM && Desk.GetArea() < OVERSIZEHIGHNUM)
+                            rushPriceMap[1, 1] = rushPricesList[4];
+                        else
+                            rushPriceMap[1, 2] = rushPricesList[5];
+                    }
+                    else if (rush == 7)
+                    {
+                        if (Desk.GetArea() < OVERSIZESTARTNUM)
+                            rushPriceMap[2, 0] = rushPricesList[6];
+                        else if (Desk.GetArea() > OVERSIZESTARTNUM && Desk.GetArea() < OVERSIZEHIGHNUM)
+                            rushPriceMap[2, 1] = rushPricesList[7];
+                        else
+                            rushPriceMap[2, 2] = rushPricesList[8];
+                    }
+                }
+                
+            }
+            catch
+            {
+                
+            }
+
+            return rushPriceMap;
         }
 
     }
