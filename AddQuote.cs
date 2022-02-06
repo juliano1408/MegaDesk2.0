@@ -77,12 +77,14 @@ namespace MegaDesk_Stratton
             string material = deskquote.GetDesk().GetDesktopMaterial().ToString();
             string orderOptions = deskquote.GetRush().ToString();
 
-            string json = @"{'customName':" + customName + ", " +
-                            "'width': " + width + ", " +
-                            "'depth': " + depth + ", " +
-                            "'numberDrawers': " + numberDrawers + ", " +
-                            "'material': " + material + ", " +
-                            "'orderOptions': " + orderOptions + "}";
+            string json = @"{'custName':'" + customName + "', " +
+                            "'rush': " + orderOptions + "," +
+                            "'Desk':{" +
+                            "'width': "+ width + "," +
+                            "'depth': " + depth + "," +
+                            "'drawerCount': " + numberDrawers + "," +
+                            "'material': '" + material + "' }" +
+                            "}";
 
             string pathFile = projectDirectory + "\\quotes.txt";
 

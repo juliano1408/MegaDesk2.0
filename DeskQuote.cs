@@ -9,8 +9,10 @@ namespace MegaDesk_Stratton
 {
     public class DeskQuote
     {
-        private string custName;
-        private int rush;
+        public string custName { get; set; }
+        public int rush { get; set; }
+        public Desk Desk { get; set; }
+
         private int quote;
         private const int BASECOST = 200;
         private const int PERDRAWER = 50;
@@ -18,17 +20,16 @@ namespace MegaDesk_Stratton
         private const int OVERSIZESTARTNUM = 1000;
         private const int OVERSIZEHIGHNUM = 2000;
         private DateTime date;
-        private Desk Desk;
         public DeskQuote()
         {
         }
-        public DeskQuote(Desk desk) {
+
+        public DeskQuote(string customName, int orderOptions, Desk desk)
+        {
+            this.custName = customName;
+            this.rush = orderOptions;
             this.Desk = desk;
         }
-        public DeskQuote( Desk desk, DeskQuote newDeskQuote)
-        {
-            
-    }
         
         public string GetCustName() { return this.custName; }
         public void SetCustName(string name) { custName = name; }

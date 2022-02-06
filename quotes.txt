@@ -1,2 +1,8 @@
-{'customName':Caio, 'width': 80, 'depth': 48, 'numberDrawers': 2, 'material': veneer, 'orderOptions': 5}
-{'customName':Renata, 'width': 75, 'depth': 45, 'numberDrawers': 3, 'material': laminate, 'orderOptions': 3}
+{'custName':"Caio", 'rush': 5, 'Desk': {'width': 80, 'depth': 48, 'drawerCount': 2, 'material': "veneer"}}
+{'custName':"Renata", 'rush': 3, 'Desk': {'width': 80, 'depth': 48, 'drawerCount': 2, 'material': "veneer"}}
+{'custName':"Alex", 'rush': 5, 'Desk': {'width': 80, 'depth': 48, 'drawerCount': 2, 'material': "veneer"}}
+{'custName':'Ivan', 'rush': 5,'Desk':{'width': 28,'depth': 31,'drawerCount': 3,'material': 'rosewood' }}
+{'custName':'Mario', 'rush': 7,'Desk':{'width': 50,'depth': 48,'drawerCount': 2,'material': 'oak' }}
+{'custName':'Laura', 'rush': 0,'Desk':{'width': 45,'depth': 45,'drawerCount': 6,'material': 'pine' }}
+
+{'custName':'Patrick', 'rush': 3,'Desk':{'width': 42,'depth': 42,'drawerCount': 2,'material': 'laminate' }}
